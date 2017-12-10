@@ -27,14 +27,10 @@
 
 /* Begin PBXFileReference section */
 		179959641FDD02200054656B /* my1010! */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "my1010!"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1799597E1FDD093E0054656B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		1799597F1FDD093E0054656B /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
 		179959801FDD093E0054656B /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
 		179959811FDD093E0054656B /* Shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape.cpp; sourceTree = "<group>"; };
 		179959821FDD093E0054656B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		179959831FDD093E0054656B /* my1010!.layout */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "my1010!.layout"; sourceTree = "<group>"; };
-		179959841FDD093E0054656B /* my1010!.cbp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "my1010!.cbp"; sourceTree = "<group>"; };
-		179959851FDD093E0054656B /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		179959861FDD093E0054656B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		179959871FDD093F0054656B /* my1010.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = my1010.cpp; sourceTree = "<group>"; };
 		179959881FDD093F0054656B /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
@@ -73,14 +69,10 @@
 			children = (
 				179959801FDD093E0054656B /* Board.cpp */,
 				179959861FDD093E0054656B /* Board.h */,
-				179959851FDD093E0054656B /* LICENSE */,
 				179959821FDD093E0054656B /* main.cpp */,
 				1799597F1FDD093E0054656B /* main.h */,
-				179959841FDD093E0054656B /* my1010!.cbp */,
-				179959831FDD093E0054656B /* my1010!.layout */,
 				179959871FDD093F0054656B /* my1010.cpp */,
 				179959881FDD093F0054656B /* my1010.h */,
-				1799597E1FDD093E0054656B /* README.md */,
 				179959811FDD093E0054656B /* Shape.cpp */,
 				179959891FDD093F0054656B /* Shape.h */,
 			);
@@ -168,6 +160,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -198,6 +191,7 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -223,6 +217,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_CXX0X_EXTENSIONS = NO;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -247,6 +242,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
