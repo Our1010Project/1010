@@ -35,6 +35,9 @@
 		179959871FDD093F0054656B /* my1010.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = my1010.cpp; sourceTree = "<group>"; };
 		179959881FDD093F0054656B /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
 		179959891FDD093F0054656B /* Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape.h; sourceTree = "<group>"; };
+		179959901FDD962A0054656B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		179959911FDD97440054656B /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		179959921FDD97910054656B /* Window.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +70,7 @@
 		1799597D1FDD091C0054656B /* my1010! */ = {
 			isa = PBXGroup;
 			children = (
+				1799598E1FDD95C40054656B /* OS X 专用 */,
 				179959801FDD093E0054656B /* Board.cpp */,
 				179959861FDD093E0054656B /* Board.h */,
 				179959821FDD093E0054656B /* main.cpp */,
@@ -77,6 +81,16 @@
 				179959891FDD093F0054656B /* Shape.h */,
 			);
 			path = "my1010!";
+			sourceTree = "<group>";
+		};
+		1799598E1FDD95C40054656B /* OS X 专用 */ = {
+			isa = PBXGroup;
+			children = (
+				179959901FDD962A0054656B /* Info.plist */,
+				179959911FDD97440054656B /* MainMenu.xib */,
+				179959921FDD97910054656B /* Window.xib */,
+			);
+			path = "OS X 专用";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
