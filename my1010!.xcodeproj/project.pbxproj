@@ -35,9 +35,9 @@
 		179959871FDD093F0054656B /* my1010.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = my1010.cpp; sourceTree = "<group>"; };
 		179959881FDD093F0054656B /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
 		179959891FDD093F0054656B /* Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape.h; sourceTree = "<group>"; };
-		179959901FDD962A0054656B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		179959911FDD97440054656B /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		179959921FDD97910054656B /* Window.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Window.xib; sourceTree = "<group>"; };
+		17D194021FDD9B5F009163D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		17D194031FDD9B73009163D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17D194051FDD9C16009163D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/my1010!.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,9 +86,9 @@
 		1799598E1FDD95C40054656B /* OS X 专用 */ = {
 			isa = PBXGroup;
 			children = (
-				179959901FDD962A0054656B /* Info.plist */,
-				179959911FDD97440054656B /* MainMenu.xib */,
-				179959921FDD97910054656B /* Window.xib */,
+				17D194041FDD9C16009163D5 /* my1010!.storyboard */,
+				17D194021FDD9B5F009163D5 /* Assets.xcassets */,
+				17D194031FDD9B73009163D5 /* Info.plist */,
 			);
 			path = "OS X 专用";
 			sourceTree = "<group>";
@@ -134,6 +134,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 1799595B1FDD02200054656B;
 			productRefGroup = 179959651FDD02200054656B /* Products */;
@@ -158,6 +159,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		17D194041FDD9C16009163D5 /* my1010!.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				17D194051FDD9C16009163D5 /* Base */,
+			);
+			name = "my1010!.storyboard";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		179959691FDD02200054656B /* Debug */ = {
@@ -270,7 +282,9 @@
 		1799596C1FDD02200054656B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ABW86A8H9Q;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-3.0",
 					"-I/usr/local/include/wx-3.0",
@@ -305,13 +319,16 @@
 					"-lwx_baseu-3.0",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		1799596D1FDD02200054656B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ABW86A8H9Q;
 				OTHER_CPLUSPLUSFLAGS = (
 					"-I/usr/local/lib/wx/include/osx_cocoa-unicode-3.0",
 					"-I/usr/local/include/wx-3.0",
@@ -346,6 +363,7 @@
 					"-lwx_baseu-3.0",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
