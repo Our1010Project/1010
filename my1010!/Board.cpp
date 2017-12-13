@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "main.h"
 
 Board::Board(wxFrame *parent)
        : wxPanel(parent, wxID_ANY, wxDefaultPosition,wxDefaultSize, wxBORDER_NONE)
@@ -30,7 +31,7 @@ void Board::Start()
     numLinesRemoved = 0;
     ClearBoard();
 
-    generate_block();
+    Data::form init_line();
     timer->Start(300);
 }
 
@@ -56,7 +57,7 @@ void Board::Pause()
 void Board::OnPaint(wxPaintEvent& event)
 {
     wxPaintDC dc(this);
-
+    
     wxSize size = GetClientSize();
     int boardTop = size.GetHeight() - BoardHeight * square_height();
 
@@ -66,7 +67,7 @@ void Board::OnPaint(wxPaintEvent& event)
             Colours block = block_at(j, BoardHeight - i - 1);
             if (block != no_colour)
                 DrawSquare(dc, 0 + j * square_width(),
-                           boardTop + i * square_height(),block);
+                           boardTop + i * square_height());
         }
     }//there is something down,but i delet
 
@@ -180,8 +181,10 @@ bool Board::try_move(const Block& new_piece,int newX ,int newY)
     return true;
 }
 
+
 void Board::DrawSquare(wxPaintDC& dc, int x, int y, Colours block)
 {
+    Colours block=Colours(Data::grid[x][y]);
     static wxColour colors[] = { wxColour(0, 0, 0), wxColour(204, 102, 102),
              wxColour(102, 204, 102), wxColour(102, 102, 204),
              wxColour(204, 204, 102), wxColour(204, 102, 204),

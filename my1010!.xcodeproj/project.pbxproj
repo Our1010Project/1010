@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1799598A1FDD093F0054656B /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 179959801FDD093E0054656B /* Board.cpp */; };
+		17145D521FE03AFF005FE115 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D4B1FE03AFE005FE115 /* Game.cpp */; };
+		17145D531FE03AFF005FE115 /* Clean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D4C1FE03AFE005FE115 /* Clean.cpp */; };
+		17145D551FE03AFF005FE115 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D511FE03AFF005FE115 /* Block.cpp */; };
+		17145D601FE05712005FE115 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D5C1FE05712005FE115 /* Board.cpp */; };
+		17145D611FE05712005FE115 /* my1010.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D5F1FE05712005FE115 /* my1010.cpp */; };
 		1799598B1FDD093F0054656B /* Shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 179959811FDD093E0054656B /* Shape.cpp */; };
 		1799598C1FDD093F0054656B /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 179959821FDD093E0054656B /* main.cpp */; };
-		1799598D1FDD093F0054656B /* my1010.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 179959871FDD093F0054656B /* my1010.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -26,18 +29,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		17145D4B1FE03AFE005FE115 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
+		17145D4C1FE03AFE005FE115 /* Clean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Clean.cpp; sourceTree = "<group>"; };
+		17145D4E1FE03AFF005FE115 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		17145D4F1FE03AFF005FE115 /* Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clean.h; sourceTree = "<group>"; };
+		17145D501FE03AFF005FE115 /* Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Block.h; sourceTree = "<group>"; };
+		17145D511FE03AFF005FE115 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
+		17145D5C1FE05712005FE115 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
+		17145D5D1FE05712005FE115 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		17145D5E1FE05712005FE115 /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
+		17145D5F1FE05712005FE115 /* my1010.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = my1010.cpp; sourceTree = "<group>"; };
 		179959641FDD02200054656B /* my1010! */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "my1010!"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1799597F1FDD093E0054656B /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
-		179959801FDD093E0054656B /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
 		179959811FDD093E0054656B /* Shape.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shape.cpp; sourceTree = "<group>"; };
 		179959821FDD093E0054656B /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		179959861FDD093E0054656B /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		179959871FDD093F0054656B /* my1010.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = my1010.cpp; sourceTree = "<group>"; };
-		179959881FDD093F0054656B /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
 		179959891FDD093F0054656B /* Shape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shape.h; sourceTree = "<group>"; };
-		17D194021FDD9B5F009163D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		17D194031FDD9B73009163D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		17D194051FDD9C16009163D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = "Base.lproj/my1010!.storyboard"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,27 +76,22 @@
 		1799597D1FDD091C0054656B /* my1010! */ = {
 			isa = PBXGroup;
 			children = (
-				1799598E1FDD95C40054656B /* OS X 专用 */,
-				179959801FDD093E0054656B /* Board.cpp */,
-				179959861FDD093E0054656B /* Board.h */,
-				179959821FDD093E0054656B /* main.cpp */,
 				1799597F1FDD093E0054656B /* main.h */,
-				179959871FDD093F0054656B /* my1010.cpp */,
-				179959881FDD093F0054656B /* my1010.h */,
-				179959811FDD093E0054656B /* Shape.cpp */,
+				179959821FDD093E0054656B /* main.cpp */,
+				17145D5D1FE05712005FE115 /* Board.h */,
+				17145D5C1FE05712005FE115 /* Board.cpp */,
 				179959891FDD093F0054656B /* Shape.h */,
+				179959811FDD093E0054656B /* Shape.cpp */,
+				17145D5F1FE05712005FE115 /* my1010.cpp */,
+				17145D5E1FE05712005FE115 /* my1010.h */,
+				17145D501FE03AFF005FE115 /* Block.h */,
+				17145D511FE03AFF005FE115 /* Block.cpp */,
+				17145D4C1FE03AFE005FE115 /* Clean.cpp */,
+				17145D4F1FE03AFF005FE115 /* Clean.h */,
+				17145D4B1FE03AFE005FE115 /* Game.cpp */,
+				17145D4E1FE03AFF005FE115 /* Game.h */,
 			);
 			path = "my1010!";
-			sourceTree = "<group>";
-		};
-		1799598E1FDD95C40054656B /* OS X 专用 */ = {
-			isa = PBXGroup;
-			children = (
-				17D194041FDD9C16009163D5 /* my1010!.storyboard */,
-				17D194021FDD9B5F009163D5 /* Assets.xcassets */,
-				17D194031FDD9B73009163D5 /* Info.plist */,
-			);
-			path = "OS X 专用";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,25 +152,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1799598A1FDD093F0054656B /* Board.cpp in Sources */,
+				17145D601FE05712005FE115 /* Board.cpp in Sources */,
+				17145D531FE03AFF005FE115 /* Clean.cpp in Sources */,
 				1799598B1FDD093F0054656B /* Shape.cpp in Sources */,
 				1799598C1FDD093F0054656B /* main.cpp in Sources */,
-				1799598D1FDD093F0054656B /* my1010.cpp in Sources */,
+				17145D611FE05712005FE115 /* my1010.cpp in Sources */,
+				17145D551FE03AFF005FE115 /* Block.cpp in Sources */,
+				17145D521FE03AFF005FE115 /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		17D194041FDD9C16009163D5 /* my1010!.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				17D194051FDD9C16009163D5 /* Base */,
-			);
-			name = "my1010!.storyboard";
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		179959691FDD02200054656B /* Debug */ = {
@@ -186,7 +179,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -217,7 +210,7 @@
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -243,7 +236,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_CXX0X_EXTENSIONS = NO;
+				CLANG_WARN_CXX0X_EXTENSIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -268,7 +261,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = NO;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
@@ -293,6 +286,11 @@
 					"-D__WXMAC__",
 					"-D__WXOSX__",
 					"-D__WXOSX_COCOA__",
+					"-I/usr/local/Cellar/fltk/1.3.4_1/include",
+					"-D_LARGEFILE_SOURCE",
+					"-D_LARGEFILE64_SOURCE",
+					"-D_THREAD_SAFE",
+					"-D_REENTRANT",
 				);
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-L/usr/local/lib",
@@ -317,6 +315,7 @@
 					"-lwx_baseu_xml-3.0",
 					"-lwx_baseu_net-3.0",
 					"-lwx_baseu-3.0",
+					/usr/local/Cellar/fltk/1.3.4_1/lib/libfltk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -337,6 +336,11 @@
 					"-D__WXMAC__",
 					"-D__WXOSX__",
 					"-D__WXOSX_COCOA__",
+					"-I/usr/local/Cellar/fltk/1.3.4_1/include",
+					"-D_LARGEFILE_SOURCE",
+					"-D_LARGEFILE64_SOURCE",
+					"-D_THREAD_SAFE",
+					"-D_REENTRANT",
 				);
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-L/usr/local/lib",
@@ -361,6 +365,7 @@
 					"-lwx_baseu_xml-3.0",
 					"-lwx_baseu_net-3.0",
 					"-lwx_baseu-3.0",
+					/usr/local/Cellar/fltk/1.3.4_1/lib/libfltk.a,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

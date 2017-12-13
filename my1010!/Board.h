@@ -2,6 +2,7 @@
 #define BOARD_H_INCLUDED
 
 #include "Shape.h"
+#include "main.h"
 #include <wx/wx.h>
 
 
@@ -18,8 +19,8 @@ protected:
     void OnTimer(wxCommandEvent& event);
 
 private:
-    enum { BoardWidth = 6, BoardHeight = 21 };
-
+    enum { BoardWidth = Data::width, BoardHeight = Data::height };
+    
     Colours & block_at(int x,int y){return board [x][y];}
 
     int square_width(){return GetClientSize().GetWidth() / BoardWidth;}
