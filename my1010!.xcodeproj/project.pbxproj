@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17145D521FE03AFF005FE115 /* Game.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D4B1FE03AFE005FE115 /* Game.cpp */; };
-		17145D531FE03AFF005FE115 /* Clean.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D4C1FE03AFE005FE115 /* Clean.cpp */; };
-		17145D551FE03AFF005FE115 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D511FE03AFF005FE115 /* Block.cpp */; };
 		17145D601FE05712005FE115 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D5C1FE05712005FE115 /* Board.cpp */; };
 		17145D611FE05712005FE115 /* my1010.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 17145D5F1FE05712005FE115 /* my1010.cpp */; };
 		1799598B1FDD093F0054656B /* Shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 179959811FDD093E0054656B /* Shape.cpp */; };
@@ -29,12 +26,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		17145D4B1FE03AFE005FE115 /* Game.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Game.cpp; sourceTree = "<group>"; };
-		17145D4C1FE03AFE005FE115 /* Clean.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Clean.cpp; sourceTree = "<group>"; };
-		17145D4E1FE03AFF005FE115 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
-		17145D4F1FE03AFF005FE115 /* Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Clean.h; sourceTree = "<group>"; };
-		17145D501FE03AFF005FE115 /* Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Block.h; sourceTree = "<group>"; };
-		17145D511FE03AFF005FE115 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
 		17145D5C1FE05712005FE115 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
 		17145D5D1FE05712005FE115 /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
 		17145D5E1FE05712005FE115 /* my1010.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = my1010.h; sourceTree = "<group>"; };
@@ -84,12 +75,6 @@
 				179959811FDD093E0054656B /* Shape.cpp */,
 				17145D5F1FE05712005FE115 /* my1010.cpp */,
 				17145D5E1FE05712005FE115 /* my1010.h */,
-				17145D501FE03AFF005FE115 /* Block.h */,
-				17145D511FE03AFF005FE115 /* Block.cpp */,
-				17145D4C1FE03AFE005FE115 /* Clean.cpp */,
-				17145D4F1FE03AFF005FE115 /* Clean.h */,
-				17145D4B1FE03AFE005FE115 /* Game.cpp */,
-				17145D4E1FE03AFF005FE115 /* Game.h */,
 			);
 			path = "my1010!";
 			sourceTree = "<group>";
@@ -153,12 +138,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				17145D601FE05712005FE115 /* Board.cpp in Sources */,
-				17145D531FE03AFF005FE115 /* Clean.cpp in Sources */,
 				1799598B1FDD093F0054656B /* Shape.cpp in Sources */,
 				1799598C1FDD093F0054656B /* main.cpp in Sources */,
 				17145D611FE05712005FE115 /* my1010.cpp in Sources */,
-				17145D551FE03AFF005FE115 /* Block.cpp in Sources */,
-				17145D521FE03AFF005FE115 /* Game.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

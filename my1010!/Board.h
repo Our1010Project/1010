@@ -19,9 +19,9 @@ protected:
     void OnTimer(wxCommandEvent& event);
 
 private:
-    enum { BoardWidth = Data::width, BoardHeight = Data::height };
+    enum { BoardWidth = Data::width, BoardHeight = Data::height};
     
-    Colours & block_at(int x,int y){return board [x][y];}
+    Data::Colours & block_at(int x,int y){return board [x][y];}
 
     int square_width(){return GetClientSize().GetWidth() / BoardWidth;}
     int square_height(){return GetClientSize().GetHeight() / BoardHeight;}
@@ -30,9 +30,9 @@ private:
     void PieceDropped();
     void DropDown();
     void OneLineDown();
-    void generate_block();
+
     bool try_move(const Block& new_piece,int newX ,int newY);
-    void DrawSquare(wxPaintDC &dc, int x, int y, Colours block);
+    void DrawSquare(wxPaintDC &dc, int x, int y, Data::Colours block);
 
     wxTimer *timer;
     bool isStarted;
@@ -42,7 +42,7 @@ private:
     int curY;
     int numLinesRemoved;
     Block cur_piece;
-    Colours board[BoardWidth][BoardHeight];
+    Data::Colours board[BoardWidth][BoardHeight];
     wxStatusBar *m_stsbar;
 
 };

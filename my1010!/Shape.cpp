@@ -4,15 +4,14 @@
 
 using namespace std;
 
-void Block::set_block(Colours block)
+void Block::set_block(int x, int y, Data::Colours block)
 {
     pieceblock=block;
 }
 
-void Block::set_random_colour()
-{
-int x = rand() % 7 + 1;
-set_block(Colours (x));
-}
+void Block::set_random_colour(int x,int y) {
+    int c = rand() % 7 + 1;
+    set_block(x,y,Data::Colours (c));
+};
 
 

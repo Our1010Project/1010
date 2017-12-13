@@ -21,6 +21,8 @@ Board::Board(wxFrame *parent)
     Connect(wxEVT_TIMER, wxCommandEventHandler(Board::OnTimer));
 }
 
+
+
 void Board::Start()
 {
     if (isPaused)
@@ -30,8 +32,7 @@ void Board::Start()
     isFallingFinished = false;
     numLinesRemoved = 0;
     ClearBoard();
-
-    Data::form init_line();
+    Data::form::init_line();
     timer->Start(300);
 }
 
@@ -64,10 +65,10 @@ void Board::OnPaint(wxPaintEvent& event)
 
     for (int i = 0; i < BoardHeight; ++i) {
         for (int j = 0; j < BoardWidth; ++j) {
-            Colours block = block_at(j, BoardHeight - i - 1);
-            if (block != no_colour)
+            Data::Colours block = block_at(j, BoardHeight - i - 1);
+            if (block != Data::no_colour)
                 DrawSquare(dc, 0 + j * square_width(),
-                           boardTop + i * square_height());
+                           boardTop + i * square_height(),block);
         }
     }//there is something down,but i delet
 
@@ -75,7 +76,7 @@ void Board::OnPaint(wxPaintEvent& event)
 
 void Board::OnKeyDown(wxKeyEvent& event)
 {
-    if (!isStarted || cur_piece.get_block() == no_colour) {
+    if (!isStarted || cur_piece.get_block() == Data::no_colour) {
         event.Skip();
         return;
     }
@@ -106,15 +107,7 @@ void Board::OnKeyDown(wxKeyEvent& event)
 
 }
 
-void Board::OnTimer(wxCommandEvent& event)
-{
-    if (isFallingFinished) {
-        isFallingFinished = false;
-        generate_block();
-    } else {
-        OneLineDown();
-    }
-}
+
 
 void Board::ClearBoard()
 {
@@ -122,7 +115,7 @@ void Board::ClearBoard()
     {
         for (int j=0;j<BoardHeight-1;j++)
         {
-            board[i][j]=no_colour;
+            board[i][j]=Data::no_colour;
         }
     }
 }
@@ -144,34 +137,15 @@ void Board::OneLineDown()
         PieceDropped();
 }
 
-void Board::PieceDropped()
-{
-
-        int x = curX ;
-        int y = curY ;
-       block_at(x, y) = cur_piece.get_block();
 
 
-    //RemoveFullLines();
 
-    if (!isFallingFinished)
-        generate_block();
-}
-
-void Board::generate_block()
-{
-    for (int i=0;i<BoardWidth;i++)
-    {
-        cur_piece.set_random_colour();
-        board[i][BoardHeight-1]=cur_piece.pieceblock;
-    }
-}
 
 bool Board::try_move(const Block& new_piece,int newX ,int newY)
 {
     if (newX < 0 || newX >= BoardWidth || newY < 0 || newY >= BoardHeight-1)
             return false;
-    if (block_at(newX, newY) != no_colour)
+    if (block_at(newX, newY) != Data::no_colour)
             return false;
 
     cur_piece = new_piece;
@@ -182,7 +156,7 @@ bool Board::try_move(const Block& new_piece,int newX ,int newY)
 }
 
 
-void Board::DrawSquare(wxPaintDC& dc, int x, int y, Colours block)
+void Board::DrawSquare(wxPaintDC& dc, int x, int y, Data::Colours block)
 {
     static wxColour colors[] = { wxColour(0, 0, 0), wxColour(204, 102, 102),
              wxColour(102, 204, 102), wxColour(102, 102, 204),
