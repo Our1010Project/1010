@@ -184,7 +184,6 @@ bool Board::try_move(const Block& new_piece,int newX ,int newY)
 
 void Board::DrawSquare(wxPaintDC& dc, int x, int y, Colours block)
 {
-    Colours block=Colours(Data::grid[x][y]);
     static wxColour colors[] = { wxColour(0, 0, 0), wxColour(204, 102, 102),
              wxColour(102, 204, 102), wxColour(102, 102, 204),
              wxColour(204, 204, 102), wxColour(204, 102, 204),
