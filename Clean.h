@@ -15,7 +15,7 @@ namespace Game
     void scan(Block table[row_number][column_number],int i,int j,vector<int>& same_color_list);
 
     bool can_be_cleaned(Block table[row_number][column_number]);
-    bool same_color(Block table[row_number][column_number],int i1,int j1,int i2,int j2);//(i1,j1):µ±Ç°£¬(i2,j2):ÖÜÎ§¸ñ×Ó
+    bool same_color(Block table[row_number][column_number],int i1,int j1,int i2,int j2);//(i1,j1):å½“å‰ï¼Œ(i2,j2):å‘¨å›´æ ¼å­
  };
 }
 
