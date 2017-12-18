@@ -107,7 +107,7 @@ void Board::OnKeyDown(wxKeyEvent& event)
         break;
     case 'D':case 'd':case WXK_DOWN:
         OneLineDown();
-       // if (can_be_cleaned()) {clean();}
+        while (can_be_cleaned()) {clean();}
         break;
     default:
         event.Skip();
@@ -266,14 +266,25 @@ void Board::DrawSquare(wxPaintDC& dc, int x, int y, Property block)
 }
 
 //CLEAN_ZWY
-/*void Board::clean()
+void Board::clean()
 {
     for (int x=0;x<BoardWidth;++x)
-        for (int y=0;y<BoardHeight;++y)
+        for (int y=0;y<BoardHeight-1;++y)
     {
-        if
+        if (board[x][y].colour==no_colour)
+        {
+            int CurrentHeight{y};//当前待填空位置
+            for (int k=y;k<BoardHeight-1;++k)
+                if (board[x][k].colour!=no_colour){
+                     block_at(x,CurrentHeight)=block_at(x,k);
+                     block_at(x,k)=default_property();
+                     ++CurrentHeight;
+                     Refresh();
+                }
+            break;//退出这一层循环
+        }
     }
-}*/
+}
 
 void Board::scan(int x,int y,vector<int>&same_color_list)
     {
@@ -311,7 +322,7 @@ void Board::scan(int x,int y,vector<int>&same_color_list)
 bool Board::same_color(int x1,int y1,int x2,int y2)
     {
       if (0<=x2&&x2<BoardWidth)
-        if (0<=y2&&y2<BoardHeight)
+        if (0<=y2&&y2<BoardHeight-1)//最高行数待改
           if (board[x1][y1].colour==board[x2][y2].colour){
             return true;
           }
@@ -322,13 +333,13 @@ bool Board::can_be_cleaned()
     {
       bool cb_cleaned{false};
       for (int x=0;x<BoardWidth;++x)
-      for (int y=0;y<BoardHeight;++y){
+      for (int y=0;y<height(x);++y){
         board[x][y].already_scaned=false;
         board[x][y].wait_to_clean=false;
       }
 
       for (int x=0;x<BoardWidth;++x)
-      for (int y=0;y<BoardHeight;++y){
+      for (int y=0;y<height(x);++y){
         if (!board[x][y].already_scaned)
         {
           vector<int> same_color_list{x,y};
