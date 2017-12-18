@@ -1,8 +1,0 @@
-#Ignore Built Products
-/DerivedData
-
-/bin
-
-/obj
-
-#Place the products in release folder when you need to send it
