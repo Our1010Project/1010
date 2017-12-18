@@ -273,7 +273,7 @@ void Board::clean()
     {
         if (board[x][y].colour==no_colour)
         {
-            int CurrentHeight{y};//µ±Ç°´ıÌî¿ÕÎ»ÖÃ
+            int CurrentHeight{y};//å½“å‰å¾…å¡«ç©ºä½ç½®
             for (int k=y;k<BoardHeight-1;++k)
                 if (board[x][k].colour!=no_colour){
                      block_at(x,CurrentHeight)=block_at(x,k);
@@ -281,35 +281,35 @@ void Board::clean()
                      ++CurrentHeight;
                      Refresh();
                 }
-            break;//ÍË³öÕâÒ»²ãÑ­»·
+            break;//é€€å‡ºè¿™ä¸€å±‚å¾ªç¯
         }
     }
 }
 
 void Board::scan(int x,int y,vector<int>&same_color_list)
     {
-      if (same_color(x,y,x,y+1))             //ÉÏ
+      if (same_color(x,y,x,y+1))             //ä¸Š
         if (!board[x][y+1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y+1);
           board[x][y+1].already_scaned=true;
           scan(x,y+1,same_color_list);
         }
-      if (same_color(x,y,x,y-1))             //ÏÂ
+      if (same_color(x,y,x,y-1))             //ä¸‹
         if (!board[x][y-1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y-1);
           board[x][y-1].already_scaned=true;
           scan(x,y-1,same_color_list);
         }
-      if (same_color(x,y,x-1,y))             //×ó
+      if (same_color(x,y,x-1,y))             //å·¦
         if (!board[x-1][y].already_scaned){
           same_color_list.push_back(x-1);
           same_color_list.push_back(y);
           board[x-1][y].already_scaned=true;
           scan(x-1,y,same_color_list);
         }
-      if (same_color(x,y,x+1,y))             //ÓÒ
+      if (same_color(x,y,x+1,y))             //å³
         if (!board[x+1][y].already_scaned){
           same_color_list.push_back(x+1);
           same_color_list.push_back(y);
@@ -322,7 +322,7 @@ void Board::scan(int x,int y,vector<int>&same_color_list)
 bool Board::same_color(int x1,int y1,int x2,int y2)
     {
       if (0<=x2&&x2<BoardWidth)
-        if (0<=y2&&y2<BoardHeight-1)//×î¸ßĞĞÊı´ı¸Ä
+        if (0<=y2&&y2<BoardHeight-1)//æœ€é«˜è¡Œæ•°å¾…æ”¹
           if (board[x1][y1].colour==board[x2][y2].colour){
             return true;
           }
@@ -345,7 +345,7 @@ bool Board::can_be_cleaned()
           vector<int> same_color_list{x,y};
           board[x][y].already_scaned=true;
           scan(x,y,same_color_list);
-          if (same_color_list.size()>=6){                                    //ÒÔºóÔÚÕâÀï¿ÉÒÔ¼ÓËã·ÖÊı
+          if (same_color_list.size()>=6){            //ä»¥ååœ¨è¿™é‡Œå¯ä»¥åŠ ç®—åˆ†æ•°
               cb_cleaned=true;
               for(int k=0;k<same_color_list.size();k+=2){
                 board[same_color_list[k]][same_color_list[k+1]].wait_to_clean=true;
@@ -357,4 +357,3 @@ bool Board::can_be_cleaned()
       }
       return cb_cleaned;
     }
-

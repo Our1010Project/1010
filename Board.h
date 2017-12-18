@@ -55,8 +55,7 @@ private:
     void scan(int x,int y,vector<int>& same_color_list);
 
     bool can_be_cleaned();
-    bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):µ±Ç°£¬(x2,y2):ÖÜÎ§¸ñ×Ó
-
+    bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):å½“å‰ï¼Œ(x2,y2):å‘¨å›´æ ¼å­
 };
 
 #endif // BOARD_H_INCLUDED
