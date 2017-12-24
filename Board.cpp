@@ -1,5 +1,6 @@
 #include "Board.h"
 #include<vector>
+#include<algorithm>
 
 Board::Board(wxFrame *parent)
        : wxPanel(parent, wxID_ANY, wxDefaultPosition,wxDefaultSize, wxBORDER_NONE)
@@ -107,8 +108,8 @@ void Board::OnKeyDown(wxKeyEvent& event)
         break;
     case 'D':case 'd':case WXK_DOWN:
         OneLineDown();
-        while (can_be_cleaned()) {clean();}
-        break;
+        while (can_be_cleaned()||can_jump_l()||can_jump_r()) {clean();}//判断的函数中均已完成清除或左跳右跳的动作
+        break;                                                         //clean负责整理可能出现的空白格子
     default:
         event.Skip();
     }
@@ -357,3 +358,67 @@ bool Board::can_be_cleaned()
       }
       return cb_cleaned;
     }
+
+bool Board::can_jump_l(){
+   int p{1};
+   for(int x=1;x<BoardWidth;++x){
+      if (jump_left(x)){
+         p=0;
+      }
+     }if(p==0){
+     jump_to_l();
+     return true;
+     }else return false;
+}
+
+bool Board::can_jump_r(){
+   int p{1};
+   for(int x=0;x<BoardWidth-1;++x){
+      if (jump_right(x)){
+         p=0;
+      }
+     }if(p==0){
+     jump_to_r();
+     return true;
+     }else return false;
+}
+
+bool Board::jump_left(int x){
+    if (height(x)-height(x-1)>1)return true;
+    else return false;
+}
+
+bool Board::jump_right(int x){
+    if (height(x)-height(x+1)>1)return true;
+    else return false;
+}
+
+int Board::next_to_jump_l(){
+    int y=0;
+    for(int x=1;x<BoardWidth;++x){
+       if(jump_left(x)) {y=x;break;}}
+    for(int x=y;x<BoardWidth;++x){
+       if(jump_left(x)&&height(x)>height(y)) {y=x;}}
+    return y;
+}
+
+int Board::next_to_jump_r(){
+    int y=0;
+    for(int x=0;x<BoardWidth-1;++x){
+       if(jump_right(x)) {y=x;break;}}
+    for(int x=0;x<BoardWidth-1;++x){
+       if(jump_right(x)&&height(x)>height(y)) {y=x;}}
+    return y;
+}
+
+void Board::jump_to_l(){
+   int x=next_to_jump_l();
+   board[x-1][height(x-1)].colour=board[x][height(x)-1].colour;
+   board[x][height(x)-1].colour=no_colour;
+}
+
+void Board::jump_to_r(){
+   int x=next_to_jump_r();
+   board[x+1][height(x)].colour=board[x][height(x)-1].colour;
+   board[x][height(x)-1].colour=no_colour;
+}

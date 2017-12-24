@@ -56,6 +56,16 @@ private:
 
     bool can_be_cleaned();
     bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):当前，(x2,y2):周围格子
+
+    bool can_jump_l();
+    bool can_jump_r();
+    bool jump_left(int x);
+    bool jump_right(int x);
+
+    int next_to_jump_l();
+    int next_to_jump_r();
+    void jump_to_l();
+    void jump_to_r();
 };
 
 #endif // BOARD_H_INCLUDED
