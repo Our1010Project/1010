@@ -1,14 +1,19 @@
 #include "Board.h"
 #include<vector>
 #include<algorithm>
+#include<iostream>
+#include <ctime>
+
+using namespace std ;
 
 Board::Board(wxFrame *parent)
-       : wxPanel(parent, wxID_ANY, wxDefaultPosition,wxDefaultSize, wxBORDER_NONE)
+       : wxPanel(parent, wxID_ANY, wxDefaultPosition,wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 {
     timer = new wxTimer(this, 1);
 
     m_stsbar = parent->GetStatusBar();
     isFallingFinished = false;
+    is_cleaned= false;
     isStarted = false;
     isPaused = false;
     numLinesRemoved = 0;
@@ -33,7 +38,7 @@ void Board::Start()
     ClearBoard();
 
     generate_block();
-    timer->Start(300);
+    timer->Start(500);
 }
 
 void Board::Pause()
@@ -46,7 +51,7 @@ void Board::Pause()
         timer->Stop();
         m_stsbar->SetStatusText(wxT("paused"));
     } else {
-        timer->Start(300);
+        timer->Start(500);
         wxString str;
         str.Printf(wxT("%d"), numLinesRemoved);
         m_stsbar->SetStatusText(str);
@@ -108,21 +113,36 @@ void Board::OnKeyDown(wxKeyEvent& event)
         break;
     case 'D':case 'd':case WXK_DOWN:
         OneLineDown();
-        while (can_be_cleaned()||can_jump_l()||can_jump_r()) {clean();}//判断的函数中均已完成清除或左跳右跳的动作
-        break;                                                         //clean负责整理可能出现的空白格子
+        //�жϵĺ����о����������������������Ķ���
+        break;                                                         //clean�����������ܳ��ֵĿհ׸���
     default:
         event.Skip();
     }
 
 }
+/*
+void Board::delay(int time)
+{
+clock_t   now   =   clock();
 
+while(   clock()   -   now   <   time   );
+}
+*/
 void Board::OnTimer(wxCommandEvent& event)
 {
     if (isFallingFinished) {
-        isFallingFinished = false;
-        generate_block();
-    } else {
-        return;
+        isFallingFinished = false;//@hlh:我感觉这个值是不是可以不用？
+    }
+    clean_complete();
+    Refresh();
+    for (int i=0;i<BoardWidth;i++)
+    {   if (height(i)==BoardHeight-2)
+        {timer->Stop();
+        isStarted = false;
+        wxString str;
+        str.Printf(wxT("Game Over.Total score:%d"), numLinesRemoved);
+        m_stsbar->SetStatusText(str);
+        return;}
     }
 }
 
@@ -151,6 +171,8 @@ void Board::OneLineDown()
     }
     Refresh();
     generate_block();
+    isFallingFinished=true;
+
 }
 
 /*void Board::PieceDropped()
@@ -158,7 +180,6 @@ void Board::OneLineDown()
        int x = curX+cur_piece.x(cur_piece.pieceblock) ;
        int y = curY ;
        block_at(x,y)=cur_piece.get_block();
-
     //RemoveFullLines();
     if (!isFallingFinished)
         generate_block();
@@ -171,6 +192,7 @@ void Board::generate_block()
         cur_piece.set_random_colour();
         board[i][BoardHeight-1]=cur_piece.pieceblock;
     }
+
 }
 
 int Board::height(int index)
@@ -218,7 +240,6 @@ bool Board::try_move(const Block& new_piece,int newX ,int newY)
             return false;
     if (block_at(newX, newY) != no_colour)
             return false;
-
     cur_piece = new_piece;
     curX = newX;
     curY = newY;
@@ -274,7 +295,7 @@ void Board::clean()
     {
         if (board[x][y].colour==no_colour)
         {
-            int CurrentHeight{y};//当前待填空位置
+            int CurrentHeight{y};//��ǰ������λ��
             for (int k=y;k<BoardHeight-1;++k)
                 if (board[x][k].colour!=no_colour){
                      block_at(x,CurrentHeight)=block_at(x,k);
@@ -282,35 +303,35 @@ void Board::clean()
                      ++CurrentHeight;
                      Refresh();
                 }
-            break;//退出这一层循环
+            break;//�˳���һ��ѭ��
         }
     }
 }
 
 void Board::scan(int x,int y,vector<int>&same_color_list)
     {
-      if (same_color(x,y,x,y+1))             //上
+      if (same_color(x,y,x,y+1))             //��
         if (!board[x][y+1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y+1);
           board[x][y+1].already_scaned=true;
           scan(x,y+1,same_color_list);
         }
-      if (same_color(x,y,x,y-1))             //下
+      if (same_color(x,y,x,y-1))             //��
         if (!board[x][y-1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y-1);
           board[x][y-1].already_scaned=true;
           scan(x,y-1,same_color_list);
         }
-      if (same_color(x,y,x-1,y))             //左
+      if (same_color(x,y,x-1,y))             //��
         if (!board[x-1][y].already_scaned){
           same_color_list.push_back(x-1);
           same_color_list.push_back(y);
           board[x-1][y].already_scaned=true;
           scan(x-1,y,same_color_list);
         }
-      if (same_color(x,y,x+1,y))             //右
+      if (same_color(x,y,x+1,y))             //��
         if (!board[x+1][y].already_scaned){
           same_color_list.push_back(x+1);
           same_color_list.push_back(y);
@@ -323,7 +344,7 @@ void Board::scan(int x,int y,vector<int>&same_color_list)
 bool Board::same_color(int x1,int y1,int x2,int y2)
     {
       if (0<=x2&&x2<BoardWidth)
-        if (0<=y2&&y2<BoardHeight-1)//最高行数待改
+        if (0<=y2&&y2<BoardHeight-1)//������������
           if (board[x1][y1].colour==board[x2][y2].colour){
             return true;
           }
@@ -346,18 +367,29 @@ bool Board::can_be_cleaned()
           vector<int> same_color_list{x,y};
           board[x][y].already_scaned=true;
           scan(x,y,same_color_list);
-          if (same_color_list.size()>=6){            //以后在这里可以加算分数
+          if (same_color_list.size()>=6){            //�Ժ����������Լ�������
               cb_cleaned=true;
               for(int k=0;k<same_color_list.size();k+=2){
                 board[same_color_list[k]][same_color_list[k+1]].wait_to_clean=true;
                 board[same_color_list[k]][same_color_list[k+1]].colour=no_colour;
               }
+              numLinesRemoved+=same_color_list.size()/2-2;
+              wxString str;
+              str.Printf(wxT("score:%d"),numLinesRemoved);
+              m_stsbar->SetStatusText(str);
               Refresh();
           }
         }
       }
       return cb_cleaned;
     }
+
+void Board::clean_complete()
+{
+    while (can_be_cleaned()||can_jump_l()||can_jump_r()) {clean();}
+
+  //  is_cleaned= true;
+}
 
 bool Board::can_jump_l(){
    int p{1};
@@ -421,4 +453,13 @@ void Board::jump_to_r(){
    int x=next_to_jump_r();
    board[x+1][height(x)].colour=board[x][height(x)-1].colour;
    board[x][height(x)-1].colour=no_colour;
+}
+
+void Board::jump()
+{
+    while(can_jump_l()||can_jump_r())
+    {
+        clean();
+
+    }
 }

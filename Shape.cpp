@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "Shape.h"
+#include<iostream>
+#include<random>
+#include<time.h>
 
 using namespace std;
 
@@ -35,8 +38,9 @@ void Block::set_block(Property block)
 
 void Block::set_random_colour()
 {
-int x = rand() % 7 + 1;
-set_block(Property(Colours (x),false,false));
+static std::default_random_engine e( time(NULL));
+static std::uniform_int_distribution<int> u(1, 7);
+set_block(Property(Colours (u(e)),false,false));
 }
 /*
 Block Block::move_left() const
@@ -46,7 +50,6 @@ Block Block::move_left() const
     result.set_x(pieceblock,result.x(pieceblock)-1);
     return result;
 }
-
 Block Block::move_right() const
 {
     Block result;
