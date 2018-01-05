@@ -367,6 +367,7 @@ bool Board::same_color(int x1,int y1,int x2,int y2)
 bool Board::can_be_cleaned()
     {
       bool cb_cleaned{false};
+      clean_list.clear();
       for (int x=0;x<BoardWidth;++x)
       for (int y=0;y<height(x);++y){
         board[x][y].already_scaned=false;
@@ -381,7 +382,10 @@ bool Board::can_be_cleaned()
           if (same_color_list.size()>=6){
               cb_cleaned=true;
               isCleanFinished=false;
-              clean_list=same_color_list;
+              for (int i=0;i<same_color_list.size();++i)
+              {
+                clean_list.push_back(same_color_list[i]);
+              }
               numLinesRemoved+=same_color_list.size()/2-2;
               wxString str;
               str.Printf(wxT("score:%d"),numLinesRemoved);
