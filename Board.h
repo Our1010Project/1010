@@ -4,7 +4,6 @@
 #include "Shape.h"
 #include <wx/wx.h>
 #include <vector>
-#include <ctime>
 
 using std::vector;
 
@@ -15,8 +14,6 @@ public:
     Board(wxFrame *parent);
     void Start();
     void Pause();
-    void delay(int time);//time*1000Ϊ����
-
 
 protected:
     void OnPaint(wxPaintEvent& event);
@@ -47,25 +44,26 @@ private:
     bool isStarted;
     bool isPaused;
     bool isFallingFinished;
+    bool isCleanFinished;
+    bool isAdjustFinished;
+    bool isJumpFinished;
     int curX;
     int curY;
     int numLinesRemoved;
     Block cur_piece;
     Property board[BoardWidth][BoardHeight];
+    vector<int> clean_list;
     wxStatusBar *m_stsbar;
 
-
-    //CLEAN_ZWY
-    void clean();//清除空白格子
+    ///////////////////////////////////////////////
+    void adjust();
+    void clean();
     void scan(int x,int y,vector<int>& same_color_list);
 
-    bool is_cleaned;
+    bool can_be_cleaned();
+    bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):current(x2,y2):next
 
-    bool can_be_cleaned();//判断是否能够消去，并且将可以消去的格子设为无色
-    bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):��ǰ��(x2,y2):��Χ����
-
-    void clean_complete();//完成所有的消除和跳下
-
+    ///////////////////////////////////////////////////////
     bool can_jump_l();
     bool can_jump_r();
     bool jump_left(int x);
