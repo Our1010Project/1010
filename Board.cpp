@@ -40,7 +40,7 @@ void Board::Start()
     ClearBoard();
 
     generate_block();
-    timer->Start(300);
+    timer->Start(200);
 }
 
 void Board::Pause()
@@ -53,7 +53,7 @@ void Board::Pause()
         timer->Stop();
         m_stsbar->SetStatusText(wxT("paused"));
     } else {
-        timer->Start(300);
+        timer->Start(200);
         wxString str;
         str.Printf(wxT("%d"), numLinesRemoved);
         m_stsbar->SetStatusText(str);
@@ -132,6 +132,7 @@ void Board::OnTimer(wxCommandEvent& event)
     if (next&&!isAdjustFinished) {adjust();next=false;}
     if (next&&!isJumpFinished) {jump();next=false;}
     if (next&&can_be_cleaned()) {clean();}
+    Refresh();
     for (int i=0;i<BoardWidth;i++)
     {   if (height(i)==BoardHeight-2)
         {timer->Stop();
@@ -315,7 +316,7 @@ void Board::adjust()
 
 void Board::clean()
 {
-  board[clean_list.size()-2][clean_list.size()-1].colour=no_colour;
+  board[clean_list[clean_list.size()-2]][clean_list[clean_list.size()-1]].colour=no_colour;
   clean_list.pop_back();
   clean_list.pop_back();
   if (clean_list.size()==0) {isCleanFinished=true;isAdjustFinished=false;}
@@ -453,14 +454,12 @@ void Board::jump_to_l(){
    int x=next_to_jump_l();
    board[x-1][height(x-1)].colour=board[x][height(x)-1].colour;
    board[x][height(x)-1].colour=no_colour;
-   Refresh();
 }
 
 void Board::jump_to_r(){
    int x=next_to_jump_r();
-   board[x+1][height(x)].colour=board[x][height(x)-1].colour;
+   board[x+1][height(x+1)].colour=board[x][height(x)-1].colour;
    board[x][height(x)-1].colour=no_colour;
-   Refresh();
 }
 
 
