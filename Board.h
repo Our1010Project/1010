@@ -47,9 +47,12 @@ private:
     bool isCleanFinished;
     bool isAdjustFinished;
     bool isJumpFinished;
-    int curX;
-    int curY;
-    int numLinesRemoved;
+    const int lifeLine{10};
+    int lifeLeft;
+    int curJ;//当前显示的最底列
+    int score;//当前分数
+    int numLinesRemoved;//与血槽有关
+    int scoreLevel;//每一步的得分等级
     Block cur_piece;
     Property board[BoardWidth][BoardHeight];
     vector<int> clean_list;
@@ -75,6 +78,9 @@ private:
     void jump_to_r();
 
     void jump();
+    ////////////////////////////////////////////////////////////
+
+    void tryRemove();
 };
 
 #endif // BOARD_H_INCLUDED

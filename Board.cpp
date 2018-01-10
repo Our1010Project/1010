@@ -18,9 +18,9 @@ Board::Board(wxFrame *parent)
     isJumpFinished=true;
     isStarted = false;
     isPaused = false;
+    score=0;
+    scoreLevel=0;
     numLinesRemoved = 0;
-    curX = 0;
-    curY = 0;
 
     ClearBoard();
 
@@ -36,6 +36,11 @@ void Board::Start()
 
     isStarted = true;
     isFallingFinished = false;
+    isCleanFinished=true;
+    isAdjustFinished=true;
+    isJumpFinished=true;
+    score=0;
+    scoreLevel=0;
     numLinesRemoved = 0;
     ClearBoard();
 
@@ -55,7 +60,7 @@ void Board::Pause()
     } else {
         timer->Start(200);
         wxString str;
-        str.Printf(wxT("%d"), numLinesRemoved);
+        str.Printf(wxT("%d"), score);
         m_stsbar->SetStatusText(str);
     }
     Refresh();
@@ -71,7 +76,7 @@ void Board::OnPaint(wxPaintEvent& event)
 
 
     for (int i = 0; i < BoardHeight; ++i) {
-        for (int j = 0; j < BoardWidth; ++j) {
+        for (int j = curJ; j < BoardWidth; ++j) {
             Property block = block_at(j, BoardHeight - i - 1);
             if (block.colour != no_colour)
                 DrawSquare(dc, 0 + j * square_width(),
@@ -115,6 +120,8 @@ void Board::OnKeyDown(wxKeyEvent& event)
         break;
     case 'D':case 'd':case WXK_DOWN:
         OneLineDown();
+        scoreLevel=0;
+        if (can_be_cleaned()) {isCleanFinished=false;}
         break;
     default:
         event.Skip();
@@ -131,7 +138,6 @@ void Board::OnTimer(wxCommandEvent& event)
     if (!isCleanFinished) {clean();next=false;}
     if (next&&!isAdjustFinished) {adjust();next=false;}
     if (next&&!isJumpFinished) {jump();next=false;}
-    if (next&&can_be_cleaned()) {clean();}
     Refresh();
     for (int i=0;i<BoardWidth;i++)
     {   if (height(i)==BoardHeight-2)
@@ -172,16 +178,6 @@ void Board::OneLineDown()
     isFallingFinished=true;
 
 }
-
-/*void Board::PieceDropped()
-{
-       int x = curX+cur_piece.x(cur_piece.pieceblock) ;
-       int y = curY ;
-       block_at(x,y)=cur_piece.get_block();
-    //RemoveFullLines();
-    if (!isFallingFinished)
-        generate_block();
-}*/
 
 void Board::generate_block()
 {
@@ -231,19 +227,6 @@ void Board::move_r()
     }
     Refresh();
 }
-/*
-bool Board::try_move(const Block& new_piece,int newX ,int newY)
-{
-    if (newX < 0 || newX >= BoardWidth || newY < 0 || newY >= BoardHeight-1)
-            return false;
-    if (block_at(newX, newY) != no_colour)
-            return false;
-    cur_piece = new_piece;
-    curX = newX;
-    curY = newY;
-    Refresh();
-    return true;
-}*/
 
 void Board::DrawSquare(wxPaintDC& dc, int x, int y, Property block)
 {
@@ -387,9 +370,27 @@ bool Board::can_be_cleaned()
               {
                 clean_list.push_back(same_color_list[i]);
               }
-              numLinesRemoved+=same_color_list.size()/2-2;
+              switch(same_color_list.size()/2)
+              {
+              case 3: case 4:
+                scoreLevel+=1;
+                score+=same_color_list.size()*2;
+                break;
+              case 5: case 6:
+                scoreLevel+=2;
+                score+=same_color_list.size()*3;
+                break;
+              case 8: case 9:
+                scoreLevel+=3;
+                score+=same_color_list.size()*4;
+                break;
+              default:
+                scoreLevel+=4;
+                score+=same_color_list.size()*5;
+                break;
+              }
               wxString str;
-              str.Printf(wxT("score:%d"),numLinesRemoved);
+              str.Printf(wxT("score:%d"),score);
               m_stsbar->SetStatusText(str);
               Refresh();
           }
@@ -462,4 +463,9 @@ void Board::jump_to_r(){
    board[x][height(x)-1].colour=no_colour;
 }
 
+/////////////////////////////////////////////////////////////////////
 
+/*void Board::tryRemove()
+{
+   while
+}*/
