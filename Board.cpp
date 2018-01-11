@@ -157,8 +157,10 @@ void Board::OnTimer(wxCommandEvent& event)
     {
         timer->Stop();
         isStarted = false;
+        resetHighest(score);
+        highest=get_h();
         wxString str;
-        str.Printf(wxT("Game Over.Total score:%d"), score);
+        str.Printf(wxT("Game Over.Total score:%d,  Highest:%d"), score,highest);
         m_stsbar->SetStatusText(str);
         return;
     }
@@ -412,6 +414,30 @@ bool Board::can_be_cleaned()
       return cb_cleaned;
     }
 
+void Board::resetHighest(int x)
+{
+    ofstream resetH{"highest_score.txt"};
+    ifstream currentH{"highest_score.txt"};
+    int high{0};
+    if(currentH.eof()){
+        resetH<<x;
+    }else{
+       currentH>>high;
+       if(high<x)resetH<<x;
+    }
+}
+
+int Board::get_h()
+{
+    ifstream currentH{"highest_score.txt"};
+    int x{0};
+    if(currentH.eof()){
+        return 0;
+    }else{
+      currentH>>x;
+      return x;
+    }
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Board::jump()

@@ -4,6 +4,7 @@
 #include "Shape.h"
 #include <wx/wx.h>
 #include <vector>
+#include <fstream>
 
 using std::vector;
 
@@ -21,7 +22,7 @@ protected:
     void OnTimer(wxCommandEvent& event);
 
 private:
-    enum { BoardWidth = 6, BoardHeight = 21 };
+    enum { BoardWidth = 6, BoardHeight = 20 };
 
     Property & block_at(int x,int y){return board [x][y];}
 
@@ -47,11 +48,12 @@ private:
     bool isCleanFinished;
     bool isAdjustFinished;
     bool isJumpFinished;
-    const int lifeLine{18};
+    const int lifeLine{15};
     int lifeLeft;
     int curLowY;//当前显示的最底列
     int curHighY();
     int score;//当前分数
+    int highest{get_h()};
     int numLinesRemoved;//与血槽有关
     int scoreLevel;//每一步的得分等级
     Block cur_piece;
@@ -63,6 +65,8 @@ private:
     void adjust();
     void clean();
     void scan(int x,int y,vector<int>& same_color_list);
+    void resetHighest(int x);
+    int get_h();
 
     bool can_be_cleaned();
     bool same_color(int x1,int y1,int x2,int y2);//(x1,y1):current(x2,y2):next

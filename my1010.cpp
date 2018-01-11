@@ -2,7 +2,7 @@
 #include "Board.h"
 
 My1010::My1010(const wxString& title)
-       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(200, 700))
+       : wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(280, 980))
 {
   wxStatusBar *sb = CreateStatusBar();
   sb->SetStatusText(wxT("score:0"));
