@@ -18,6 +18,8 @@ Board::Board(wxFrame *parent)
     isJumpFinished=true;
     isStarted = false;
     isPaused = false;
+    curLowY=0;
+    lifeLeft=3;
     score=0;
     scoreLevel=0;
     numLinesRemoved = 0;
@@ -39,6 +41,8 @@ void Board::Start()
     isCleanFinished=true;
     isAdjustFinished=true;
     isJumpFinished=true;
+    curLowY=0;
+    lifeLeft=3;
     score=0;
     scoreLevel=0;
     numLinesRemoved = 0;
@@ -60,7 +64,7 @@ void Board::Pause()
     } else {
         timer->Start(200);
         wxString str;
-        str.Printf(wxT("%d"), score);
+        str.Printf(wxT("score:%d"), score);
         m_stsbar->SetStatusText(str);
     }
     Refresh();
@@ -74,13 +78,19 @@ void Board::OnPaint(wxPaintEvent& event)
     wxSize size = GetClientSize();
     int boardTop = size.GetHeight() - BoardHeight * square_height();
 
+    for (int j = 0; j < BoardWidth; ++j) {
+            Property block = block_at(j, BoardHeight - 1);
+            if (block.colour != no_colour)
+            {DrawSquare(dc, 0 + j * square_width(),
+                           boardTop ,block);}
+    }
 
-    for (int i = 0; i < BoardHeight; ++i) {
-        for (int j = curJ; j < BoardWidth; ++j) {
+    for (int i = 1; i < BoardHeight-curLowY; ++i) {
+        for (int j = 0; j < BoardWidth; ++j) {
             Property block = block_at(j, BoardHeight - i - 1);
             if (block.colour != no_colour)
-                DrawSquare(dc, 0 + j * square_width(),
-                           boardTop + i * square_height(),block);
+            {DrawSquare(dc, 0 + j * square_width(),
+                           boardTop + (i+curLowY) * square_height(),block);}
         }
     }//there is something down,but i delet
 /*    if (cur_piece.get_block()!=no_colour)
@@ -119,9 +129,12 @@ void Board::OnKeyDown(wxKeyEvent& event)
         move_r();
         break;
     case 'D':case 'd':case WXK_DOWN:
-        OneLineDown();
-        scoreLevel=0;
-        if (can_be_cleaned()) {isCleanFinished=false;}
+        if (isCleanFinished&&isJumpFinished&&isAdjustFinished)
+        {
+          OneLineDown();
+          scoreLevel=0;
+          if (can_be_cleaned()) {isCleanFinished=false;}
+        }
         break;
     default:
         event.Skip();
@@ -138,15 +151,16 @@ void Board::OnTimer(wxCommandEvent& event)
     if (!isCleanFinished) {clean();next=false;}
     if (next&&!isAdjustFinished) {adjust();next=false;}
     if (next&&!isJumpFinished) {jump();next=false;}
-    Refresh();
-    for (int i=0;i<BoardWidth;i++)
-    {   if (height(i)==BoardHeight-2)
-        {timer->Stop();
+    if (tryRemove()&&next){next=false;}
+    if (!next){Refresh();}
+    if (lifeLeft<=0)
+    {
+        timer->Stop();
         isStarted = false;
         wxString str;
-        str.Printf(wxT("Game Over.Total score:%d"), numLinesRemoved);
+        str.Printf(wxT("Game Over.Total score:%d"), score);
         m_stsbar->SetStatusText(str);
-        return;}
+        return;
     }
 }
 
@@ -365,7 +379,6 @@ bool Board::can_be_cleaned()
           scan(x,y,same_color_list);
           if (same_color_list.size()>=6){
               cb_cleaned=true;
-              isCleanFinished=false;
               for (int i=0;i<same_color_list.size();++i)
               {
                 clean_list.push_back(same_color_list[i]);
@@ -406,7 +419,7 @@ void Board::jump()
   bool next{true};
   if (can_jump_l()) {jump_to_l();next=false;}
   if (next&&can_jump_r()) {jump_to_r();next=false;}
-  if (next) {isJumpFinished=true;}
+  if (next) {isJumpFinished=true;if(can_be_cleaned()){isCleanFinished=false;}}
 }
 
 bool Board::can_jump_l(){
@@ -464,8 +477,21 @@ void Board::jump_to_r(){
 }
 
 /////////////////////////////////////////////////////////////////////
-
-/*void Board::tryRemove()
+int Board::curHighY()
 {
-   while
-}*/
+  int y{0};
+  for (int x=0;x<BoardWidth;++x)
+  {
+    if (height(x)>y) {y=height(x);}
+  }
+  return y;
+}
+
+bool Board::tryRemove()
+{
+   bool can{false};
+   int high{curHighY()};
+   while (high-curLowY>lifeLine) {++curLowY;--lifeLeft;can=true;}
+   while (high-curLowY+1<lifeLine&&curLowY>0) {--curLowY;can=true;}
+   return can;
+}

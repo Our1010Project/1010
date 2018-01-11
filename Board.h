@@ -47,9 +47,10 @@ private:
     bool isCleanFinished;
     bool isAdjustFinished;
     bool isJumpFinished;
-    const int lifeLine{10};
+    const int lifeLine{18};
     int lifeLeft;
-    int curJ;//当前显示的最底列
+    int curLowY;//当前显示的最底列
+    int curHighY();
     int score;//当前分数
     int numLinesRemoved;//与血槽有关
     int scoreLevel;//每一步的得分等级
@@ -80,7 +81,7 @@ private:
     void jump();
     ////////////////////////////////////////////////////////////
 
-    void tryRemove();
+    bool tryRemove();
 };
 
 #endif // BOARD_H_INCLUDED
