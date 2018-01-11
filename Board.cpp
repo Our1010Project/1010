@@ -48,7 +48,7 @@ void Board::Start()
     numLinesRemoved = 0;
     ClearBoard();
 
-    generate_block();
+    generate_block(level);
     timer->Start(200);
 }
 
@@ -64,7 +64,7 @@ void Board::Pause()
     } else {
         timer->Start(200);
         wxString str;
-        str.Printf(wxT("score:%d"), score);
+        str.Printf(wxT("score:%d, historical highest:%d"), score, highest);
         m_stsbar->SetStatusText(str);
     }
     Refresh();
@@ -160,7 +160,7 @@ void Board::OnTimer(wxCommandEvent& event)
         resetHighest(score);
         highest=get_h();
         wxString str;
-        str.Printf(wxT("Game Over.Total score:%d,  Highest:%d"), score,highest);
+        str.Printf(wxT("Game Over.Total score:%d, history:%d"), score,highest);
         m_stsbar->SetStatusText(str);
         return;
     }
@@ -190,16 +190,16 @@ void Board::OneLineDown()
         Board::DropDown(i);
     }
     Refresh();
-    generate_block();
+    generate_block(level);
     isFallingFinished=true;
 
 }
 
-void Board::generate_block()
+void Board::generate_block(int x)
 {
     for (int i=0;i<BoardWidth;i++)
     {
-        cur_piece.set_random_colour();
+        cur_piece.set_random_colour(x);
         board[i][BoardHeight-1]=cur_piece.pieceblock;
     }
 
@@ -387,15 +387,15 @@ bool Board::can_be_cleaned()
               }
               switch(same_color_list.size()/2)
               {
-              case 3: case 4:
+              case 3:
                 scoreLevel+=1;
                 score+=same_color_list.size()*2;
                 break;
-              case 5: case 6:
+              case 4:
                 scoreLevel+=2;
                 score+=same_color_list.size()*3;
                 break;
-              case 8: case 9:
+              case 5:
                 scoreLevel+=3;
                 score+=same_color_list.size()*4;
                 break;
@@ -404,8 +404,15 @@ bool Board::can_be_cleaned()
                 score+=same_color_list.size()*5;
                 break;
               }
+              if (score<200){
+                level=4;
+              }else if(score>=200&&score<500){
+                level=5;
+              }else if(score>=500&&score<800){
+                level=6;
+              }else level=7;
               wxString str;
-              str.Printf(wxT("score:%d"),score);
+              str.Printf(wxT("score:%d, history%d"),score ,highest);
               m_stsbar->SetStatusText(str);
               Refresh();
           }

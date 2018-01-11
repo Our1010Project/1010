@@ -22,7 +22,7 @@ class Block
 public :
     Block();
     void set_block(Property block);
-    void set_random_colour();
+    void set_random_colour(int dif);
 
     int x (int index) const {return coords[index];}
     Property get_block () const {return pieceblock;}

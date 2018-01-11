@@ -33,7 +33,7 @@ private:
     void PieceDropped();
     void DropDown(int index);
     void OneLineDown();
-    void generate_block();
+    void generate_block(int x);
     bool try_move(const Block& new_piece,int newX ,int newY);
     void DrawSquare(wxPaintDC &dc, int x, int y, Property block);
 
@@ -56,6 +56,7 @@ private:
     int highest{get_h()};
     int numLinesRemoved;//与血槽有关
     int scoreLevel;//每一步的得分等级
+    int level{4};
     Block cur_piece;
     Property board[BoardWidth][BoardHeight];
     vector<int> clean_list;

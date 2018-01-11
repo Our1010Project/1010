@@ -36,11 +36,13 @@ void Block::set_block(Property block)
      pieceblock=block;
 }
 
-void Block::set_random_colour()
+void Block::set_random_colour(int dif)
 {
 static std::default_random_engine e( time(NULL));
 static std::uniform_int_distribution<int> u(1, 7);
-set_block(Property(Colours (u(e)),false,false));
+int ran{1};
+for(ran=u(e);ran>dif;ran=u(e)){}
+set_block(Property(Colours (ran),false,false));
 }
 /*
 Block Block::move_left() const
