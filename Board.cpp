@@ -2,7 +2,7 @@
 #include<vector>
 #include<algorithm>
 #include<iostream>
-#include <ctime>
+
 
 using namespace std ;
 
@@ -13,12 +13,16 @@ Board::Board(wxFrame *parent)
 
     m_stsbar = parent->GetStatusBar();
     isFallingFinished = false;
-    is_cleaned= false;
+    isCleanFinished=true;
+    isAdjustFinished=true;
+    isJumpFinished=true;
     isStarted = false;
     isPaused = false;
+    curLowY=0;
+    lifeLeft=3;
+    score=0;
+    scoreLevel=0;
     numLinesRemoved = 0;
-    curX = 0;
-    curY = 0;
 
     ClearBoard();
 
@@ -34,11 +38,18 @@ void Board::Start()
 
     isStarted = true;
     isFallingFinished = false;
+    isCleanFinished=true;
+    isAdjustFinished=true;
+    isJumpFinished=true;
+    curLowY=0;
+    lifeLeft=3;
+    score=0;
+    scoreLevel=0;
     numLinesRemoved = 0;
     ClearBoard();
 
-    generate_block();
-    timer->Start(500);
+    generate_block(level);
+    timer->Start(200);
 }
 
 void Board::Pause()
@@ -51,9 +62,9 @@ void Board::Pause()
         timer->Stop();
         m_stsbar->SetStatusText(wxT("paused"));
     } else {
-        timer->Start(500);
+        timer->Start(200);
         wxString str;
-        str.Printf(wxT("%d"), numLinesRemoved);
+        str.Printf(wxT("score:%d, historical highest:%d"), score, highest);
         m_stsbar->SetStatusText(str);
     }
     Refresh();
@@ -66,16 +77,26 @@ void Board::OnPaint(wxPaintEvent& event)
 
     wxSize size = GetClientSize();
     int boardTop = size.GetHeight() - BoardHeight * square_height();
+    int Lifeline=size.GetWidth();
 
+    for (int j = 0; j < BoardWidth; ++j) {
+            Property block = block_at(j, BoardHeight - 1);
+            if (block.colour != no_colour)
+            {DrawSquare(dc, 0 + j * square_width(),
+                           boardTop ,block);}
+    }
 
-    for (int i = 0; i < BoardHeight; ++i) {
+    for (int i = 1; i < BoardHeight-curLowY; ++i) {
         for (int j = 0; j < BoardWidth; ++j) {
             Property block = block_at(j, BoardHeight - i - 1);
             if (block.colour != no_colour)
-                DrawSquare(dc, 0 + j * square_width(),
-                           boardTop + i * square_height(),block);
+            {DrawSquare(dc, 0 + j * square_width(),
+                           boardTop + (i+curLowY) * square_height(),block);}
         }
-    }//there is something down,but i delet
+    }
+    DrawLine(dc,square_height()*(BoardHeight-lifeLine)+14,Lifeline);
+
+    //there is something down,but i delet
 /*    if (cur_piece.get_block()!=no_colour)
     {
         int x=curX+cur_piece.x(cur_piece.pieceblock);
@@ -112,43 +133,40 @@ void Board::OnKeyDown(wxKeyEvent& event)
         move_r();
         break;
     case 'D':case 'd':case WXK_DOWN:
-        OneLineDown();
-        //判断的函数中均已完成清除或左跳右跳的动作
-        break;                                                         //clean负责整理可能出现的空白格子
+        if (isCleanFinished&&isJumpFinished&&isAdjustFinished)
+        {
+          OneLineDown();
+          scoreLevel=0;
+          if (can_be_cleaned()) {isCleanFinished=false;}
+        }
+        break;
     default:
         event.Skip();
     }
 
 }
-/*
-void Board::delay(int time)
-{
-clock_t   now   =   clock();
 
-while(   clock()   -   now   <   time   );
-}
-*/
 void Board::OnTimer(wxCommandEvent& event)
 {
-    if (isFallingFinished) {
+    /*if (isFallingFinished) {
         isFallingFinished = false;
-        clean_complete();
-       Refresh();
-    }
-    else if (is_cleaned)
+    }*/
+    bool next{true};//即本轮是否进行过动作，是否继续往下检测
+    if (!isCleanFinished) {clean();next=false;}
+    if (next&&!isAdjustFinished) {adjust();next=false;}
+    if (next&&!isJumpFinished) {jump();next=false;}
+    if (tryRemove()&&next){next=false;}
+    if (!next){Refresh();}
+    if (lifeLeft<=0)
     {
-        jump();
-        is_cleaned=false;
-        clean_complete();
-    }
-    for (int i=0;i<BoardWidth;i++)
-    {   if (height(i)==BoardHeight-2)
-        {timer->Stop();
+        timer->Stop();
         isStarted = false;
+        resetHighest(score);
+        highest=get_h();
         wxString str;
-        str.Printf(wxT("Game Over.Total score:%d"), numLinesRemoved);
+        str.Printf(wxT("Game Over.Total score:%d, history:%d"), score,highest);
         m_stsbar->SetStatusText(str);
-        return;}
+        return;
     }
 }
 
@@ -176,26 +194,16 @@ void Board::OneLineDown()
         Board::DropDown(i);
     }
     Refresh();
-    generate_block();
+    generate_block(level);
     isFallingFinished=true;
 
 }
 
-/*void Board::PieceDropped()
-{
-       int x = curX+cur_piece.x(cur_piece.pieceblock) ;
-       int y = curY ;
-       block_at(x,y)=cur_piece.get_block();
-    //RemoveFullLines();
-    if (!isFallingFinished)
-        generate_block();
-}*/
-
-void Board::generate_block()
+void Board::generate_block(int x)
 {
     for (int i=0;i<BoardWidth;i++)
     {
-        cur_piece.set_random_colour();
+        cur_piece.set_random_colour(x);
         board[i][BoardHeight-1]=cur_piece.pieceblock;
     }
 
@@ -239,19 +247,15 @@ void Board::move_r()
     }
     Refresh();
 }
-/*
-bool Board::try_move(const Block& new_piece,int newX ,int newY)
+
+void Board::DrawLine(wxPaintDC& dc,int x,int y)
 {
-    if (newX < 0 || newX >= BoardWidth || newY < 0 || newY >= BoardHeight-1)
-            return false;
-    if (block_at(newX, newY) != no_colour)
-            return false;
-    cur_piece = new_piece;
-    curX = newX;
-    curY = newY;
-    Refresh();
-    return true;
-}*/
+    wxPen pen(*wxRED);
+    pen.SetCap(wxCAP_PROJECTING);
+    dc.SetPen(pen);
+
+    dc.DrawLine(0,x,y,x);
+}
 
 void Board::DrawSquare(wxPaintDC& dc, int x, int y, Property block)
 {
@@ -293,51 +297,67 @@ void Board::DrawSquare(wxPaintDC& dc, int x, int y, Property block)
         square_height() - 2);
 }
 
-//CLEAN_ZWY
-void Board::clean()
+//////////////////////////////////////////////////////////////////////////////////
+void Board::adjust()
 {
-    for (int x=0;x<BoardWidth;++x)
-        for (int y=0;y<BoardHeight-1;++y)
-    {
+  isAdjustFinished=true;
+  for (int x=0;x<BoardWidth;++x)
+  {
+      for (int y=0;y<BoardHeight-1;++y)
+      {
         if (board[x][y].colour==no_colour)
         {
             int CurrentHeight{y};//当前待填空位置
-            for (int k=y;k<BoardHeight-1;++k)
+            for (int k=y;k<BoardHeight-1;++k){
                 if (board[x][k].colour!=no_colour){
                      block_at(x,CurrentHeight)=block_at(x,k);
                      block_at(x,k)=default_property();
-                     ++CurrentHeight;
-                     Refresh();
+                     isAdjustFinished=false;
+                     break;
                 }
-            break;//退出这一层循环
+            }
         }
-    }
+        if (!isAdjustFinished) break;
+      }
+      if (!isAdjustFinished) break;
+  }
+  if (isAdjustFinished)
+    {if (can_be_cleaned()) {isCleanFinished=false;}
+      else isJumpFinished=false;}
+}
+
+void Board::clean()
+{
+  board[clean_list[clean_list.size()-2]][clean_list[clean_list.size()-1]].colour=no_colour;
+  clean_list.pop_back();
+  clean_list.pop_back();
+  if (clean_list.size()==0) {isCleanFinished=true;isAdjustFinished=false;}
 }
 
 void Board::scan(int x,int y,vector<int>&same_color_list)
     {
-      if (same_color(x,y,x,y+1))             //上
+      if (same_color(x,y,x,y+1))             //up
         if (!board[x][y+1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y+1);
           board[x][y+1].already_scaned=true;
           scan(x,y+1,same_color_list);
         }
-      if (same_color(x,y,x,y-1))             //下
+      if (same_color(x,y,x,y-1))             //down
         if (!board[x][y-1].already_scaned){
           same_color_list.push_back(x);
           same_color_list.push_back(y-1);
           board[x][y-1].already_scaned=true;
           scan(x,y-1,same_color_list);
         }
-      if (same_color(x,y,x-1,y))             //左
+      if (same_color(x,y,x-1,y))             //left
         if (!board[x-1][y].already_scaned){
           same_color_list.push_back(x-1);
           same_color_list.push_back(y);
           board[x-1][y].already_scaned=true;
           scan(x-1,y,same_color_list);
         }
-      if (same_color(x,y,x+1,y))             //右
+      if (same_color(x,y,x+1,y))             //right
         if (!board[x+1][y].already_scaned){
           same_color_list.push_back(x+1);
           same_color_list.push_back(y);
@@ -360,12 +380,11 @@ bool Board::same_color(int x1,int y1,int x2,int y2)
 bool Board::can_be_cleaned()
     {
       bool cb_cleaned{false};
+      clean_list.clear();
       for (int x=0;x<BoardWidth;++x)
       for (int y=0;y<height(x);++y){
         board[x][y].already_scaned=false;
-        board[x][y].wait_to_clean=false;
       }
-
       for (int x=0;x<BoardWidth;++x)
       for (int y=0;y<height(x);++y){
         if (!board[x][y].already_scaned)
@@ -373,15 +392,40 @@ bool Board::can_be_cleaned()
           vector<int> same_color_list{x,y};
           board[x][y].already_scaned=true;
           scan(x,y,same_color_list);
-          if (same_color_list.size()>=6){            //以后在这里可以加算分数
+          if (same_color_list.size()>=6){
               cb_cleaned=true;
-              for(int k=0;k<same_color_list.size();k+=2){
-                board[same_color_list[k]][same_color_list[k+1]].wait_to_clean=true;
-                board[same_color_list[k]][same_color_list[k+1]].colour=no_colour;
+              for (int i=0;i<same_color_list.size();++i)
+              {
+                clean_list.push_back(same_color_list[i]);
               }
-              numLinesRemoved+=same_color_list.size()/2-2;
+              switch(same_color_list.size()/2)
+              {
+              case 3:
+                scoreLevel+=1;
+                score+=same_color_list.size()*2;
+                break;
+              case 4:
+                scoreLevel+=2;
+                score+=same_color_list.size()*3;
+                break;
+              case 5:
+                scoreLevel+=3;
+                score+=same_color_list.size()*4;
+                break;
+              default:
+                scoreLevel+=4;
+                score+=same_color_list.size()*5;
+                break;
+              }
+              if (score<200){
+                level=4;
+              }else if(score>=200&&score<500){
+                level=5;
+              }else if(score>=500&&score<800){
+                level=6;
+              }else level=7;
               wxString str;
-              str.Printf(wxT("score:%d"),numLinesRemoved);
+              str.Printf(wxT("score:%d, history%d"),score ,highest);
               m_stsbar->SetStatusText(str);
               Refresh();
           }
@@ -390,37 +434,52 @@ bool Board::can_be_cleaned()
       return cb_cleaned;
     }
 
-void Board::clean_complete()
+void Board::resetHighest(int x)
 {
-    while(can_be_cleaned())
-    {
-        clean();
+    ofstream resetH{"highest_score.txt"};
+    ifstream currentH{"highest_score.txt"};
+    int high{0};
+    if(currentH.eof()){
+        resetH<<x;
+    }else{
+       currentH>>high;
+       if(high<x)resetH<<x;
     }
-    is_cleaned= true;
+}
+
+int Board::get_h()
+{
+    ifstream currentH{"highest_score.txt"};
+    int x{0};
+    if(currentH.eof()){
+        return 0;
+    }else{
+      currentH>>x;
+      return x;
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Board::jump()
+{
+  bool next{true};
+  if (can_jump_l()) {jump_to_l();next=false;}
+  if (next&&can_jump_r()) {jump_to_r();next=false;}
+  if (next) {isJumpFinished=true;if(can_be_cleaned()){isCleanFinished=false;}}
 }
 
 bool Board::can_jump_l(){
-   int p{1};
    for(int x=1;x<BoardWidth;++x){
-      if (jump_left(x)){
-         p=0;
-      }
-     }if(p==0){
-     jump_to_l();
-     return true;
-     }else return false;
+      if (jump_left(x)) return true;
+   }
+   return false;
 }
 
 bool Board::can_jump_r(){
-   int p{1};
    for(int x=0;x<BoardWidth-1;++x){
-      if (jump_right(x)){
-         p=0;
-      }
-     }if(p==0){
-     jump_to_r();
-     return true;
-     }else return false;
+      if (jump_right(x)) return true;
+   }
+   return false;
 }
 
 bool Board::jump_left(int x){
@@ -459,15 +518,26 @@ void Board::jump_to_l(){
 
 void Board::jump_to_r(){
    int x=next_to_jump_r();
-   board[x+1][height(x)].colour=board[x][height(x)-1].colour;
+   board[x+1][height(x+1)].colour=board[x][height(x)-1].colour;
    board[x][height(x)-1].colour=no_colour;
 }
 
-void Board::jump()
+/////////////////////////////////////////////////////////////////////
+int Board::curHighY()
 {
-    while(can_jump_l()||can_jump_r())
-    {
-        clean();
+  int y{0};
+  for (int x=0;x<BoardWidth;++x)
+  {
+    if (height(x)>y) {y=height(x);}
+  }
+  return y;
+}
 
-    }
+bool Board::tryRemove()
+{
+   bool can{false};
+   int high{curHighY()};
+   while (high-curLowY>lifeLine) {++curLowY;--lifeLeft;can=true;}
+   while (high-curLowY+1<lifeLine&&curLowY>0) {--curLowY;can=true;}
+   return can;
 }
